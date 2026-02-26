@@ -173,14 +173,23 @@ def start(show_tips=True):
     a = 9
     b = 9
     try:
-        if show_tips:
-            print("If you want 9x9, then just press enter.")
+        
         line = input('Enter the field size: ')
+        if show_tips:
+            print('''For example: "6 8" means 6 rows and 8 columns.
+If you want 9 by 9, then just press enter.''')
         if line:
-            a, b = map(int, line.split())
+            d = line.split()
+            if len(d) != 2:
+                d = line.split('x')
+                if len(d) != 2:
+                    raise ValueError
+            a, b = map(int, d)
     except TypeError:
+        print("Cannot parse this input :(")
         start()
     except ValueError:
+        print("Wrong input format")
         start()
     if not (5 < a < 100) or not (5 < b < 100):
         print("Number(s) are out of bounds!")
@@ -234,7 +243,7 @@ def get_field_params(rows, cols):
 
 
 def ask_difficulty():
-    print("What level of difficulty do you want? (enter num between 1 and 3)")
+    print("What level of difficulty do you want? (between 1 and 3)")
     level = input()
     if level == 'easy':
         level = 1
